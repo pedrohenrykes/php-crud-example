@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.change-logo {
+    margin-left: 10%;
+}
+
+@media only screen and (max-width: 992px) {
+    .change-logo {
+        font-size: 0rem !important;
+    }
+}
+
+.itemtitlesize > i {
+    font-size: 3rem;
+}
+
+.itemtitlesize > h5 {
+    margin-left: 25px;
+}
+
+.shadowbox {
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.light-green.darken-3 {
+   background-color: #46a79a !important;
+}
+
+.tabs .tab a {
+    color: #122661 !important;
+}
+
+.tabs .indicator {
+    background-color: #122661 !important;
+}
+
+.green-text.text-darken-4 {
+    color: #122661 !important;
+}
+
+.pagelogo {
+    box-shadow: 0 6px 23px #000;
+    border-radius: 50%;
+}
+
+.slider .slides {
+    border-radius: 15px !important;
+}
+
+.slider .slides li {
+    border-radius: 15px !important;
+}
