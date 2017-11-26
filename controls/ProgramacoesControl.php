@@ -2,7 +2,7 @@
 
 require_once "database/Connection.php";
 
-class LocaisControl
+class ProgramacoesControl
 {
     public static function insert( $dados )
     {
@@ -11,8 +11,8 @@ class LocaisControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            INSERT INTO locais (nome, municipio, bairro, endereco)
-            VALUES (:nome, :municipio, :bairro, :endereco)
+            INSERT INTO programacoes (nome, evento_id, descricao, data_evento, hora_inicio, hora_fim)
+            VALUES (:nome, :evento_id, :descricao, :data_evento, :hora_inicio, :hora_fim)
             ');
 
             $stmt->execute( $dados );
@@ -31,7 +31,7 @@ class LocaisControl
             $conn = Connection::open();
 
             $dados = $conn->query('
-            SELECT * FROM locais
+            SELECT * FROM programacoes
             ');
 
             return $dados;
@@ -52,7 +52,7 @@ class LocaisControl
             $conn = Connection::open();
 
             $dados = $conn->query("
-            SELECT * FROM locais WHERE id = {$id}
+            SELECT * FROM programacoes WHERE id = {$id}
             ");
 
             return $dados;
@@ -73,7 +73,7 @@ class LocaisControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            DELETE FROM locais WHERE id = :id
+            DELETE FROM programacoes WHERE id = :id
             ');
 
             $stmt->bindParam(':id', $id);
@@ -94,8 +94,9 @@ class LocaisControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            UPDATE locais
-            SET nome = :nome, municipio = :municipio, bairro = :bairro, endereco = :endereco
+            UPDATE programacoes
+            SET nome = :nome, evento_id = :evento_id, descricao = :descricao,
+            data_evento = :data_evento, hora_inicio = :hora_inicio, hora_fim = :hora_fim
             WHERE id = :id
             ');
 

@@ -29,6 +29,8 @@ if ( isset( $_GET[ "acao" ] ) ) {
 
             }
 
+            header( "Location: index.php?page=ListagemLocais" );
+
             break;
 
         case "editar":
@@ -79,9 +81,6 @@ if ( isset( $_GET[ "acao" ] ) ) {
         <button class="btn waves-effect waves-light" type="submit" name="action">salvar
             <i class="material-icons right">done</i>
         </button>
-        <a class="waves-effect waves-light btn" href="index.php?page=ListagemLocais">
-            <i class="material-icons right">view_headline</i>Listagem
-        </a>
       </form>
 
     </div>
