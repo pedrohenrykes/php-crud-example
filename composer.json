@@ -14,7 +14,9 @@
     "autoload": {
         "psr-4": {
             "App\\Database\\": "app/database/",
-            "App\\Controllers\\": "app/controls/"
+            "App\\Controllers\\": "app/controls/",
+            "Core\\": "core/",
+            "Config\\": "config/"
         }
     }
 }

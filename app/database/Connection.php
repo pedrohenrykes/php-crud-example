@@ -1,37 +1,51 @@
 <?php
 namespace App\Database;
 
+use Config\Configurations;
+
 final class Connection
 {
-    private function __construct() { }
+    private function __clone() {}
+
+    private function __wakeup() {}
+
+    private function __construct() {}
 
     public static function open()
     {
-        $user  = 'root';
-        $pass  = 'root';
-        $name  = 'eventos';
-        $host  = 'localhost';
-        $type  = 'mysql';
-        $port  = '3306';
+        $dbconfig = Configurations::getDBConfig();
 
-        switch ( $type ) {
+        switch ( $dbconfig['type'] ) {
 
-            case "pgsql":
-                $port = $port ? $port : "5432";
-                $conn = new \PDO( "pgsql:dbname={$name};user={$user};password={$pass};host=$host;port={$port}" );
+            case 'pgsql':
+                $dbconfig['port'] = $dbconfig['port'] ? $dbconfig['port'] : '5432';
+                $conn = new \PDO(
+                    "pgsql:dbname={$dbconfig['name']};".
+                    "user={$dbconfig['user']};".
+                    "password={$dbconfig['pass']};".
+                    "host={$dbconfig['host']};".
+                    "port={$dbconfig['port']}"
+                );
                 break;
 
-            case "mysql":
-                $port = $port ? $port : "3306";
-                $conn = new \PDO( "mysql:host={$host};port={$port};dbname={$name}", $user, $pass, [ \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ] );
+            case 'mysql':
+                $dbconfig['port'] = $dbconfig['port'] ? $dbconfig['port'] : '3306';
+                $conn = new \PDO(
+                    "mysql:host={$dbconfig['host']};".
+                    "port={$dbconfig['port']};".
+                    "dbname={$dbconfig['name']}",
+                    $dbconfig['user'],
+                    $dbconfig['pass'],
+                    [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]
+                );
                 break;
 
             default:
-                throw new \Exception( "Driver não encontrado: " . $type );
+                throw new \Exception("Driver não encontrado: ".$dbconfig['type']);
                 break;
         }
 
-        $conn->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
+        $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $conn;
     }

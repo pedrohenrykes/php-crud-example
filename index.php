@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Registro de Eventos</title>
+    <?php
+    setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+    date_default_timezone_set('America/Recife');
+    ?>
+    <title>Registro de Eventos</title>
 
-  <?php require_once "vendor/autoload.php"; ?>
-  <?php require_once "controller.php"; ?>
+    <?php
+    require_once "vendor/autoload.php";
 
-  <?php setStyles(); ?>
+    use Core\PageLoader;
 
-  <!-- Let browser know website is optimized for mobile -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    $pageLoader = PageLoader::getInstance();
+    ?>
+
+    <?php $pageLoader->setStyles(); ?>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 
-  <?php setHeader(); ?>
+    <?php $pageLoader->setHeader(); ?>
 
-  <main class="container section no-pad-bot">
+    <main class="container section no-pad-bot">
 
-    <?php setMain( isset( $_GET["page"] ) ? $_GET["page"] : NULL ); ?>
+        <?php $pageLoader->setMain( isset( $_GET["page"] ) ? $_GET["page"] : NULL ); ?>
 
-  </main>
+    </main>
 
-  <?php setScripts(); ?>
+    <?php $pageLoader->setScripts(); ?>
 
 </body>
 </html>
