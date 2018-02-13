@@ -1,7 +1,7 @@
 <?php
 
-require_once "controls/EventosControl.php";
-require_once "controls/LocaisControl.php";
+use App\Controllers\EventosControl;
+use App\Controllers\ProgramacoesControl;
 
 $editar = [];
 
@@ -11,37 +11,37 @@ if ( isset( $_GET[ "acao" ] ) ) {
 
         case "salvar":
 
-            $data_inicio = new DateTime( $_POST[ "data_inicio" ] );
-            $data_fim    = new DateTime( $_POST[ "data_fim" ] );
+            $hora_inicio = new DateTime( $_POST[ "hora_inicio" ] );
+            $hora_fim    = new DateTime( $_POST[ "hora_fim" ] );
 
             $dados = [
                 ":nome"        => $_POST[ "nome" ],
-                ":local_id"    => $_POST[ "local_id" ],
-                ":edicao"      => $_POST[ "edicao" ],
+                ":evento_id"    => $_POST[ "evento_id" ],
                 ":descricao"   => $_POST[ "descricao" ],
-                ":data_inicio" => $data_inicio->format( "Y-m-d" ),
-                ":data_fim"    => $data_fim->format( "Y-m-d" )
+                ":data_evento" => $hora_inicio->format( "Y-m-d" ),
+                ":hora_inicio" => $hora_inicio->format( "H:i" ),
+                ":hora_fim"    => $hora_fim->format( "H:i" )
             ];
 
             if ( isset( $_POST[ "id" ] ) && is_numeric( $_POST[ "id" ] ) ) {
 
                 $dados = array_merge( [ ":id" => $_POST[ "id" ] ], $dados );
 
-                EventosControl::update( $dados );
+                ProgramacoesControl::update( $dados );
 
             } else {
 
-                EventosControl::insert( $dados );
+                ProgramacoesControl::insert( $dados );
 
             }
 
-            header( "Location: index.php?page=ListagemEventos" );
+            header( "Location: index.php?page=ListagemProgramacoes" );
 
             break;
 
         case "editar":
 
-            $dados = EventosControl::selectOne( $_GET[ "id" ] );
+            $dados = ProgramacoesControl::selectOne( $_GET[ "id" ] );
 
             foreach ( $dados as $dado ) {
                 $editar = $dado;
@@ -58,7 +58,7 @@ if ( isset( $_GET[ "acao" ] ) ) {
 
   <div class="row">
 
-      <form class="col s12" action="index.php?page=FormularioEventos&acao=salvar" method="post">
+      <form class="col s12" action="index.php?page=FormularioProgramacoes&acao=salvar" method="post">
         <input id="id" name="id" type="hidden" value="<?= isset( $editar[ "id" ] ) ? $editar[ "id" ] : NULL ?>">
         <div class="row">
           <div class="input-field col s12">
@@ -68,17 +68,17 @@ if ( isset( $_GET[ "acao" ] ) ) {
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <select id="local_id" name="local_id">
+            <select id="evento_id" name="evento_id">
               <?php
-              $dados = LocaisControl::selectAll();
+              $dados = EventosControl::selectAll();
 
-              if( isset( $_GET[ "local_id" ] ) ) {
+              if( isset( $_GET[ "evento_id" ] ) ) {
 
                   echo '<option value="" disabled>Selecione um local</option>';
 
                   foreach ( $dados as $dado ) {
 
-                      if ( $dado[ "local_id" ] == $_GET[ "local_id" ] ) {
+                      if ( $dado[ "evento_id" ] == $_GET[ "evento_id" ] ) {
                           echo '<option value="' . $dado[ "id" ] . '" selected>' . $dado[ "nome" ] . '</option>';
                       } else {
                           echo '<option value="' . $dado[ "id" ] . '">' . $dado[ "nome" ] . '</option>';
@@ -88,7 +88,7 @@ if ( isset( $_GET[ "acao" ] ) ) {
 
               } else {
 
-                  echo '<option value="" disabled selected>Selecione um local</option>';
+                  echo '<option value="" disabled selected>Selecione um evento</option>';
 
                   foreach ( $dados as $dado ) {
                       echo '<option value="' . $dado[ "id" ] . '">' . $dado[ "nome" ] . '</option>';
@@ -102,24 +102,18 @@ if ( isset( $_GET[ "acao" ] ) ) {
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="edicao" name="edicao" type="text" class="validate" value="<?= isset( $editar[ "edicao" ] ) ? $editar[ "edicao" ] : NULL ?>">
-            <label for="text">Edição</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
             <input id="descricao" name="descricao" type="text" class="validate" value="<?= isset( $editar[ "descricao" ] ) ? $editar[ "descricao" ] : NULL ?>">
             <label for="text">Descrição</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="data_inicio" name="data_inicio" type="text" class="datepicker" value="<?php
+            <input id="data_evento" name="data_evento" type="text" class="datepicker" value="<?php
 
-            if ( isset( $editar[ "data_inicio" ] ) ) {
+            if ( isset( $editar[ "data_evento" ] ) ) {
 
-                $data_inicio = new DateTime( $editar[ "data_inicio" ] );
-                echo $data_inicio->format('j F, Y');
+                $data_evento = new DateTime( $editar[ "data_evento" ] );
+                echo $data_evento->format('j F, Y');
 
             } else {
 
@@ -128,17 +122,17 @@ if ( isset( $_GET[ "acao" ] ) ) {
             }
 
             ?>">
-            <label for="text">Data de Inicio</label>
+            <label for="text">Data do Evento</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="data_fim" name="data_fim" type="text" class="datepicker" value="<?php
+            <input id="hora_inicio" name="hora_inicio" type="text" class="timepicker" placeholder="Horário de inicio" value="<?php
 
-            if ( isset( $editar[ "data_fim" ] ) ) {
+            if ( isset( $editar[ "hora_inicio" ] ) ) {
 
-                $data_fim = new DateTime( $editar[ "data_fim" ] );
-                echo $data_fim->format('j F, Y');
+                $hora_inicio = new DateTime( $editar[ "hora_inicio" ] );
+                echo $hora_inicio->format('g:iA');
 
             } else {
 
@@ -147,7 +141,26 @@ if ( isset( $_GET[ "acao" ] ) ) {
             }
 
             ?>">
-            <label for="text">Data de Fim</label>
+            <!--<label for="text">Horário de Inicio</label>-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="hora_fim" name="hora_fim" type="text" class="timepicker" placeholder="Horário de fim" value="<?php
+
+            if ( isset( $editar[ "hora_fim" ] ) ) {
+
+                $hora_fim = new DateTime( $editar[ "hora_fim" ] );
+                echo $hora_fim->format('g:iA');
+
+            } else {
+
+                echo "";
+
+            }
+
+            ?>">
+            <!--<label for="text">Horário de Fim</label>-->
           </div>
         </div>
         <button class="btn waves-effect waves-light" type="submit" name="action">salvar

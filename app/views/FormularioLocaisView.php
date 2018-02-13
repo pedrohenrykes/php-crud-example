@@ -1,6 +1,6 @@
 <?php
 
-require_once "controls/LocaisControl.php";
+use App\Controllers\LocaisControl;
 
 $editar = [];
 

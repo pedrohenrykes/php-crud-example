@@ -16,7 +16,7 @@
 
             <?php
 
-            require_once "controls/LocaisControl.php";
+            use App\Controllers\LocaisControl;
 
             if ( isset( $_GET[ "acao" ] ) && $_GET[ "acao" ] == "deletar" ) {
                 LocaisControl::delete( $_GET[ "id" ] );

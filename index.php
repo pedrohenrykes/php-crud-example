@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Registro de Eventos</title>
 
+  <?php require_once "vendor/autoload.php"; ?>
   <?php require_once "controller.php"; ?>
 
   <?php setStyles(); ?>

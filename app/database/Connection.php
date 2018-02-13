@@ -1,4 +1,5 @@
 <?php
+namespace App\Database;
 
 final class Connection
 {
@@ -17,20 +18,20 @@ final class Connection
 
             case "pgsql":
                 $port = $port ? $port : "5432";
-                $conn = new PDO( "pgsql:dbname={$name};user={$user};password={$pass};host=$host;port={$port}" );
+                $conn = new \PDO( "pgsql:dbname={$name};user={$user};password={$pass};host=$host;port={$port}" );
                 break;
 
             case "mysql":
                 $port = $port ? $port : "3306";
-                $conn = new PDO( "mysql:host={$host};port={$port};dbname={$name}", $user, $pass, [ PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ] );
+                $conn = new \PDO( "mysql:host={$host};port={$port};dbname={$name}", $user, $pass, [ \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8" ] );
                 break;
 
             default:
-                throw new Exception( "Driver não encontrado: " . $type );
+                throw new \Exception( "Driver não encontrado: " . $type );
                 break;
         }
 
-        $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        $conn->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 
         return $conn;
     }

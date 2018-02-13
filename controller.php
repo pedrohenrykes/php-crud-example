@@ -12,9 +12,9 @@ $menuOptions = [
 function setMain( $page )
 {
     if ( !empty( $page ) &&  file_exists( "views/{$page}View.php" ) ) {
-        require_once "views/{$page}View.php";
+        require_once "app/views/{$page}View.php";
     } else {
-        require_once "views/ListagemEventosView.php";
+        require_once "app/views/ListagemEventosView.php";
     }
 }
 

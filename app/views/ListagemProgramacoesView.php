@@ -19,8 +19,8 @@
 
         <?php
 
-        require_once "controls/ProgramacoesControl.php";
-        require_once "controls/EventosControl.php";
+        use App\Controllers\ProgramacoesControl;
+        use App\Controllers\EventosControl;
 
         if ( isset( $_GET[ "acao" ] ) && $_GET[ "acao" ] == "deletar" ) {
             ProgramacoesControl::delete( $_GET[ "id" ] );

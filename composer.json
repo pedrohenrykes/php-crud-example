@@ -1,0 +1,20 @@
+{
+    "name": "pedrohenrykes/php-crud-example",
+    "description": "Exemplo de CRUD com PHP",
+    "type": "project",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Pedro Aguiar",
+            "email": "pedrohenrykes@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "App\\Database\\": "app/database/",
+            "App\\Controllers\\": "app/controls/"
+        }
+    }
+}

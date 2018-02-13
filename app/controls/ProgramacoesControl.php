@@ -1,8 +1,9 @@
 <?php
+namespace App\Controllers;
 
-require_once "database/Connection.php";
+use App\Database\Connection;
 
-class EventosControl
+class ProgramacoesControl
 {
     public static function insert( $dados )
     {
@@ -11,8 +12,8 @@ class EventosControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            INSERT INTO eventos (nome, local_id, edicao, descricao, data_inicio, data_fim)
-            VALUES (:nome, :local_id, :edicao, :descricao, :data_inicio, :data_fim)
+            INSERT INTO programacoes (nome, evento_id, descricao, data_evento, hora_inicio, hora_fim)
+            VALUES (:nome, :evento_id, :descricao, :data_evento, :hora_inicio, :hora_fim)
             ');
 
             $stmt->execute( $dados );
@@ -31,7 +32,7 @@ class EventosControl
             $conn = Connection::open();
 
             $dados = $conn->query('
-            SELECT * FROM eventos
+            SELECT * FROM programacoes
             ');
 
             return $dados;
@@ -52,7 +53,7 @@ class EventosControl
             $conn = Connection::open();
 
             $dados = $conn->query("
-            SELECT * FROM eventos WHERE id = {$id}
+            SELECT * FROM programacoes WHERE id = {$id}
             ");
 
             return $dados;
@@ -73,7 +74,7 @@ class EventosControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            DELETE FROM eventos WHERE id = :id
+            DELETE FROM programacoes WHERE id = :id
             ');
 
             $stmt->bindParam(':id', $id);
@@ -94,9 +95,9 @@ class EventosControl
             $conn = Connection::open();
 
             $stmt = $conn->prepare('
-            UPDATE eventos
-            SET nome = :nome, local_id = :local_id, edicao = :edicao,
-            descricao = :descricao, data_inicio = :data_inicio, data_fim = :data_fim
+            UPDATE programacoes
+            SET nome = :nome, evento_id = :evento_id, descricao = :descricao,
+            data_evento = :data_evento, hora_inicio = :hora_inicio, hora_fim = :hora_fim
             WHERE id = :id
             ');
 
